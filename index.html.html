@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route List</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+
+        /* Overlay for readability */
+        .overlay {
+            background: rgba(255, 255, 255, 0.9);
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Header Section */
+        header {
+            background-color: rgba(0, 123, 255, 0.8);
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        header img {
+            display: block;
+            margin: 0 auto;
+            border-radius: 50%;
+        }
+
+        header h1 {
+            margin: 10px 0;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            font-size: 1.2rem;
+        }
+
+        /* Search Box */
+        .search-bar {
+            display: block;
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Route List */
+        .route-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            list-style: none;
+            margin: 0;
+        }
+
+        .route-item {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 15px 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .route-item a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .route-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #337;
+            color: Saffron;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        footer img {
+            display: block;
+            margin: 0 auto 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <!-- Header with an Image -->
+        <header>
+            <img src="iocl_logo.png" alt="Route Finder Logo" width="70">
+            <h1>IOCL COCHIN TERMINAL</h1>
+            <p>Journey Risk Management Tool</p>
+        </header>
+
+        <!-- Main Content Placeholder -->
+        <div style="padding: 20px; text-align: center;">
+            <p>Welcome to JRM Tool. Start by searching for your desired RO/Consumer JRM below.</p>
+        </div>
+
+        <!-- Search Box -->
+        <input type="text" id="searchBox" class="search-bar" placeholder="Search for a route...">
+
+        <!-- Route List -->
+        <ul class="route-list" id="routeList">
+            <!-- Route links will be generated dynamically -->
+        </ul>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 IOCL Journey Risk Management. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // List of routes
+        const routes = [
+            " MAP_A S PETROLEUM ",
+" MAP_A.G. FUELS ",
+" MAP_AL RASHEED FUELS ",
+" MAP_ALAPPATT FUELS ",
+" MAP_AMAL ASSOCIATES ",
+" MAP_ANRANJU FUELS ",
+" MAP_ASOKA FUELS ",
+" MAP_BATHEL FUELS ",
+" MAP_BRISON FUELS ",
+" MAP_BURMA PETROLEUM ",
+" MAP_CAPITHAN_S FUELS ",
+" MAP_CHEDIYAR FUELS ",
+" MAP_CHENNAKKATTU FUELS ",
+" MAP_CHIRAYIL FUELS ",
+" MAP_CHRIST FUELS ",
+" MAP_DAS FUELS ",
+" MAP_EH FUELS ",
+" MAP_FREEDOM FUELS ",
+" MAP_GLAMOUR FUELS ",
+" MAP_HILLWAY FUEL CENTRE ",
+" MAP_HIWAY FUEL SERVICE ",
+" MAP_HRISHIKESH ASSOCIATES ",
+" MAP_IGEES AUTO NEEDS ",
+" MAP_JAYANTHI FUELS ",
+" MAP_JESUS FUELS ",
+" MAP_JOJO FUELS ",
+" MAP_JYOTHI OIL STORES ",
+" MAP_K T FUELS ",
+" MAP_K.K.DAMODARAN & COMPANY ",
+" MAP_K.K.PETROLEUMS ",
+" MAP_K.M.HANEEFA LEBBA ",
+" MAP_K.V.JOSEPH & COMPANY ",
+" MAP_KAIRALI FUELS ",
+" MAP_KALAMASSERY FILLING STATION ",
+" MAP_KALAMPADAN FUELS ",
+" MAP_KALLELY FUELS ",
+" MAP_KANNAMBRA FUELS (KSK) ",
+" MAP_KKDAMODARAN - COMPANY ",
+" MAP_KODUVAYUR PETROLEUM AGENCIES ",
+" MAP_KRIPA FILLING STATION ",
+" MAP_KRISHNA FUELS (KSK) ",
+" MAP_KUDILIL FUELS ",
+" MAP_KURIANS FUELS ",
+" MAP_KUTTICHIRA PETRO PARK ",
+" MAP_LEKSHMAN FUELS ",
+" MAP_LULU FUELS ",
+" MAP_M A M FUELS ",
+" MAP_M.S.FUELS ",
+" MAP_M.S.P.FUELS ",
+" MAP_M.S.PETROLEUM (KSK) ",
+" MAP_M.V.RAGHAVAN & SONS ",
+" MAP_MAB FUELS ",
+" MAP_MAHALAKSHMI FUELS ",
+" MAP_MAJESTIC FUEL SERVICES ",
+" MAP_MALIYAKKAL ",
+" MAP_MAMBRA FUELS ",
+" MAP_MANAKUNNATHU FUELS ",
+" MAP_MARY MATHA FUELS ",
+" MAP_MATHA FUELS ",
+" MAP_MIDDLE EAST FUELS ",
+" MAP_MS J.K.FUELS ",
+" MAP_MUKKANNIYIL MAKKAR PILLA EX. MLA ",
+" MAP_MULLASSERY FUELS ",
+" MAP_N.S.AGENCIES ",
+" MAP_NADAYILKIZHAKKATHIL FUELS ",
+" MAP_NASS AGENCIES ",
+" MAP_NEEDHI PETROLEUM ",
+" MAP_NSA SONS FUEL ",
+" MAP_P.K.ABRAHAM AND SONS ",
+" MAP_P.M.P FUELS ",
+" MAP_P.RAMAN NAIR & SONS ",
+" MAP_PADINJARANGADI FUELS ",
+" MAP_PADMASREE FUELS ",
+" MAP_PADSON TRADING CORPORATION ",
+" MAP_PALLICKAL FUELS ",
+" MAP_PALLICKATHODU FUELS AND LUBRICANTS ",
+" MAP_Parokkaran Fuels ",
+" MAP_PARTHASARATHY FUELS (KSK) ",
+" MAP_PERINTHALMANNA FUEL CENTRE ",
+" MAP_PSM PETRO PARK ",
+" MAP_PUNNATHRA FUELS ",
+" MAP_RENU AUTO FUELS ",
+" MAP_S.S.PETROLEUMS ",
+" MAP_S.V.FUELS ",
+" MAP_SALEEMA PETROLEUM ",
+" MAP_SARATHY FUELS ",
+" MAP_SHEETAL PETROLEUM ",
+" MAP_SREE BHADRA FUELS ",
+" MAP_SREE DHARMASASTHA FUELS ",
+" MAP_SREE KRISHNA FUELS ",
+" MAP_SREE NARASIMHA FUELS ",
+" MAP_SREE NILAYATH FUELS ",
+" MAP_SREERAM FUELS ",
+" MAP_Sreetheertham Fuels ",
+" MAP_ST GEORGE FUELS ",
+" MAP_ST JOHN S FUELS ",
+" MAP_ST. THOMAS THELAPPILLY FUELS ",
+" MAP_STAR FUELS ",
+" MAP_SUDHA FUELS ",
+" MAP_SUN FUELS ",
+" MAP_T C FUELS ",
+" MAP_TAJ FUELS ",
+" MAP_THERANS FUELS ",
+" MAP_THUSHARA FUELS ",
+" MAP_TMR PETROLEUM ",
+" MAP_TRIKKURAPPAN PETRO PARK ",
+" MAP_TVJ PETROLEUM COMPANY ",
+" MAP_UNITED FUELS ",
+" MAP_V.K.JANARDHANAN PILLAI & CO. ",
+" MAP_VASANTHA PETROLEUM ",
+" MAP_VCM FUELS ",
+" MAP_YATRA FUELS (KILIMANOOR) ",
+" MAP_YATRA FUELS(GURUVAYUR) ",
+" MAPS_A.V.BHARGAVAN & SONS ",
+" MAPS_ALAPATT PETROLEUM ",
+" MAPS_AMBADY FUEL STATION ",
+" MAPS_AMPADY FUELS ",
+" MAPS_AMRUTHA FUELS ",
+" MAPS_ARUVANOOR GASOLINE SERVICE STATION ",
+" MAPS_ASWATHY PETRO TRADERS ",
+" MAPS_AYARKUNNAM PETROLEUM  AGENCIES ",
+" MAPS_BAPPU PETROLEUM AGENCIES ",
+" MAPS_BOBAN & MOLY AGENCIES ",
+" MAPS_BRIGHT FUELS ",
+" MAPS_BY PASS PETROLEUM ",
+" MAPS_C.K.A KUTTY & SONS ",
+" MAPS_CHAITHANYA FUELS ",
+" MAPS_CHIRACKAPADIKKAL FUELS ",
+" MAPS_COCO Vallarpadam ",
+" MAPS_DAKSHINA FUELS ",
+" MAPS_DEVI PETROLEUM ",
+" MAPS_DHANESH FUELS ",
+" MAPS_DURGA FUELS ",
+" MAPS_GABRIEL ENTERPRISES ",
+" MAPS_GANGOTHRY PETROLEUMS ",
+" MAPS_GEM FUELS ",
+" MAPS_GURUKRIPA FUELS ",
+" MAPS_H & S ",
+" MAPS_J & J AUTO FUELS ",
+" MAPS_K.M. FUELS ",
+" MAPS_K.M. PETROLEUM AGENCIES ",
+" MAPS_K.S.ABRAHAM AND COMPANY ",
+" MAPS_KALAPURACKAL MOTOR SERVICE ",
+" MAPS_KANNIYANS PETROLEUM AGENCY ",
+" MAPS_KARANAYIL ENTERPRISES ",
+" MAPS_KAVUMKAL FUELS ",
+" MAPS_KAVUVILA FUELS, ",
+" MAPS_KEERTHY PETROLEUM ",
+" MAPS_KIMS PETROLEUM AGENCIES ",
+" MAPS_KMP FUELS ",
+" MAPS_KOHINOOR GARAGE ",
+" MAPS_KOTHAMANGALAM AUTO FUELS ",
+" MAPS_KRISHNA FUELS ",
+" MAPS_KUMARA MADHAVAM PETRO PARK ",
+" MAPS_KUZHIPARAMBIL FUELS ",
+" MAPS_M K H FUELS ",
+" MAPS_MALAYALAM FUEL ENERGY POINT ",
+" MAPS_MAMAL FUELS ",
+" MAPS_MANISSERY FUELS ",
+" MAPS_MANJAPRA FUELS ",
+" MAPS_MAPPILASSERY FUELS ",
+" MAPS_MARAYOOR FUELS ",
+" MAPS_MATHALATHIL FUELS ",
+" MAPS_MAYILVAHANAM AGENCIES ",
+" MAPS_MECHERIL FUELS ",
+" MAPS_MILLENNIUM FUELS ",
+" MAPS_MRL FUELS ",
+" MAPS_Mulackal Vijaya Fuels ",
+" MAPS_MULAKKATHARAYIL FUELS ",
+" MAPS_NEDUMCHIRA AGENCIES ",
+" MAPS_NJALOOR FUELS ",
+" MAPS_O.P.MATHEW & CO ",
+" MAPS_P.K.KRISHNAN NAIR & SONS ",
+" MAPS_P.S.FUELS ",
+" MAPS_P.S.MOHAMMED & CO ",
+" MAPS_PADAVUPURAKAL FUELS ",
+" MAPS_PALATHINKALMALI FUELS ",
+" MAPS_PALAZHI FILLING STATION ",
+" MAPS_PAMBA FUELS ",
+" MAPS_PANAKKAD AUTO SERVICES ",
+" MAPS_PANTHALOOKARAN FUEL AGENCIES ",
+" MAPS_PARTHASARATHY FUELS ",
+" MAPS_PODIPPARA FUELS ",
+" MAPS_POURNAMI FUELS ",
+" MAPS_PRABHU SONS ",
+" MAPS_PRINCE ALEXANDER ",
+" MAPS_PRIYAS ",
+" MAPS_PUTHENVEETIL FUELS ",
+" MAPS_REBIN FUELS ",
+" MAPS_ROBIN PETROLEUM ",
+" MAPS_S.R.M FUELS ",
+" MAPS_SAARANG FUELS ",
+" MAPS_SAMRUDHI FUELS ",
+" MAPS_SANGEO FUELS ",
+" MAPS_SNEHA FUEL LAND ",
+" MAPS_SOORYA FUELS ",
+" MAPS_SOUPARNIKA FUELS ",
+" MAPS_SOUTHERN ROCK FUELS ",
+" MAPS_SREE DURGA ENTERPRISES ",
+" MAPS_ST.MARY_S FUELS ",
+" MAPS_STANDARD MOTOR FUEL AGENCIES ",
+" MAPS_STGEORGE FUELS ",
+" MAPS_SUNDARAN FUELS ",
+" MAPS_SWAMY AYYAPPA FUELS ",
+" MAPS_THALAYOLAPARAMBU FUELS ",
+" MAPS_THOMSON FUELS ",
+" MAPS_THURUTHEL MARINE FUELS ",
+" MAPS_VADUKKOOT FUELS ",
+" MAPS_VAZHAPPILLY FUELS ",
+" MAPS_VETTATHUR PETROLEUM ",
+" MAPS_VISWAS FUELS ",
+" MMAP_KAILATH FUELS ",
+" RTD_A.H.S.FUELS ",
+" RTD_ABEY FUELS ",
+" RTD_ABHILASH FUELS ",
+" RTD_ABS FUELS ",
+" RTD_ABY  & CO ",
+" RTD_ADITHYA FUELS ",
+" RTD_AISWARYA FUELS ",
+" RTD_ALLIANCE FUELS ",
+" RTD_AL-WAHA FUELS ",
+" RTD_AMAN FUELS ",
+" RTD_APPAVU SUNDARAM & SONS ",
+" RTD_ASSOCIATED FUELS ",
+" RTD_BABY VARGHESE & Co. ",
+" RTD_BALAKRISHNA FUELS ",
+" RTD_BENZY PETROLEUM ",
+" RTD_BEST FUEL STATION ",
+" RTD_CCS FUELS ",
+" RTD_CHITTILAPPILLY FUELS ",
+" RTD_CHUNDAMANNIL FUELS (KSK) ",
+" RTD_COCO KUMMANNOOR ",
+" RTD_CSHELL FUELS ",
+" RTD_D COMPANY ",
+" RTD_E.P.MADHAVAN NAIR PETROLEUM ",
+" RTD_EMARAT PETROLEUM ",
+" RTD_FAST TRACK FUEL CENTRE ",
+" RTD_FATHIMA PETROLEUM ",
+" RTD_FORTUNE FUELS ",
+" RTD_GASEMART ",
+" RTD_GOVIND FUELS ",
+" RTD_HIGH RANGE FUELS ",
+" RTD_HIGHWAY PETROLEUM(1) ",
+" RTD_HIGHWAY PETROLEUM ",
+" RTD_INDRAPRASTHA FUELS ",
+" RTD_J.J. FUELS ",
+" RTD_JVS FUELS ",
+" RTD_K. KRISHNANKUTTY & CO. ",
+" RTD_K.A.KUMARAN&SONS ",
+" RTD_K.C.OOMMEN & SON ",
+" RTD_K.K.PERUMALSWAMY & CO. ",
+" RTD_K.M.FUELS ",
+" RTD_K.M.S FUELS ",
+" RTD_K.S.C.S.C.LTD. (KOTTAYAM) ",
+" RTD_KADAVIL PETROLEUM AGENCIES ",
+" RTD_KAIRALY FUELS ",
+" RTD_KALLATTAYIL FUELS (KSK) ",
+" RTD_KANJIKODE FUELS ",
+" RTD_KARAVATTETHOTATHIL AUTO FUELS ",
+" RTD_KEERTHY FUEL ",
+" RTD_KISAN FUELS ",
+" RTD_KRISHNA FUELS ",
+" RTD_KTM PETROLEUM ",
+" RTD_KUNNUMANGLAV FUELS ",
+" RTD_KUZHOOR FUELS ",
+" RTD_LAKSHMI FUELS ",
+" RTD_LEELA FUELS ",
+" RTD_LIONS INDIA FUELS ",
+" RTD_M.R.G.ENTERPRISES ",
+" RTD_M.RAVEENDRAN PILLAI & CO.(1) ",
+" RTD_M.RAVEENDRAN PILLAI & CO. ",
+" RTD_MADATHUMPARA FUELS ",
+" RTD_MANAMKERIL FUELS ",
+" RTD_MAR BASIL FUELS ",
+" RTD_MATHA FUELS ",
+" RTD_MEERA PETROLEUM ",
+" RTD_MUMTHAZ FUELS ",
+" RTD_MUTTATH FUELS ",
+" RTD_NEEL Fuels ",
+" RTD_P V AGENCIES ",
+" RTD_P.K.PREMRAJ(1) ",
+" RTD_P.K.PREMRAJ ",
+" RTD_P.K.SAJEEV & CO ",
+" RTD_PARABRAHMMAM PETROLEUM ",
+" RTD_PERIYAR FUELS ",
+" RTD_PETRO MOTEL ",
+" RTD_PMJ FUELS ",
+" RTD_PONMANKAL FUEL STATION ",
+" RTD_POONJAR FUELS ",
+" RTD_POOYAPPALLY FUELS ",
+" RTD_POTHENCODE AUTO SERVICES ",
+" RTD_POYANIL FUELS ",
+" RTD_PRABHA FUELS ",
+" RTD_PRIME FUELS ",
+" RTD_PUNNATHARA PETROLEUM ",
+" RTD_PUTHENVEETTIL FUELS ",
+" RTD_SAFRA FUELS ",
+" RTD_SAHIL AUTO FUELS ",
+" RTD_SAMAD AGENCIES ",
+" RTD_SHINE PETROLEUM ",
+" RTD_SHREE VINAYAKA FUELS ",
+" RTD_SIGMA ENTERPRISES ",
+" RTD_SIMON_S PETROLEUM ",
+" RTD_SJ FUELS ",
+" RTD_SREE MAHADEVA FUELS ",
+" RTD_SREEBHADRA FUELS ",
+" RTD_ST MARY_S RVM FUELS ",
+" RTD_ST. GEORGE FUELS ",
+" RTD_ST.THOMAS FUEL STATION ",
+" RTD_STAR AGENCY ",
+" RTD_SUBI PETROLEUM ",
+" RTD_THALIYATH AUTO FUELS ",
+" RTD_THARAYIL FUELS ",
+" RTD_THEERTHAM FUELS ",
+" RTD_THURUTHIYIL ASSOCIATES ",
+" RTD_UDAYAGIRI FUELS ",
+" RTD_UNITED FUEL SERVICE ",
+" RTD_V.P.PETROLEUM AGENCY ",
+" RTD_VALAPPIL ENTERPRISES ",
+" RTD_VALUMANNEL FUELS ",
+" RTD_VARANDARAPILLY PETRO SERV ",
+" RTD_VILAYIL FUELS ",
+" RTD_YATRA FUELS (KSRTC MUNNAR) ",
+" RTD_YATRA FUELS (PONKUNNAM) ",
+" MAP_ CHAMIYAR FUELS ",
+" MAP_ DHANAVARSHA FUELS ",
+" MAP_ GRACE MARINE FUELS ",
+" MAP_ GURUDEV PETRO PARK ",
+" MAP_ I.R.BAHULEYAN & CO. ",
+" MAP_ KAYSON FUELS ",
+
+            // Add all other route file names here...
+        ];
+
+        // Generate the route list
+        const routeList = document.getElementById('routeList');
+        routes.forEach(route => {
+            const listItem = document.createElement('li');
+            listItem.className = 'route-item';
+
+            const link = document.createElement('a');
+            link.href = route;
+            link.target = '_blank';
+            link.textContent = route.replace('.html', '');
+
+            listItem.appendChild(link);
+            routeList.appendChild(listItem);
+        });
+
+        // Search Functionality
+        const searchBox = document.getElementById('searchBox');
+        searchBox.addEventListener('input', () => {
+            const query = searchBox.value.toLowerCase();
+            const items = routeList.getElementsByClassName('route-item');
+
+            Array.from(items).forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>
